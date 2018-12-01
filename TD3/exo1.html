@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercice 1 TD 3</title>
+    <link rel="stylesheet" href="jquery-ui-1.12.1.custom/jquery-ui.min.css">
+    <script src="jquery-3.2.1.min.js"></script>
+    <script src="jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+
+    <style>
+        #global{
+            display: flex;
+        }
+        #mainContainer {
+            width: 700px;
+            height: 600px;
+            border: 2px solid black;
+        }
+        #red {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+        #coordContainer {
+            margin-top: 300px;
+            margin-left: 100px;
+            width: 250px;
+            height: 50px;
+            border: 2px solid blue;
+            font-size: 45px;
+        }
+        #exo1b {
+            margin-left: 50px;
+            width: 100px;
+            height: 600px;
+            border-left: 2px solid black;
+        }
+        #exo1b button {
+            margin-left: 50px;
+        }
+        #exo1b #orderList {
+            width: 250px;
+            height: 350px;
+            background-color: lightgoldenrodyellow;
+            margin-left: 200px;
+        }
+        #exo1b #orderList p {
+            font-size: 30px;
+            margin-left: 30px;
+        }
+
+        #sortable { list-style-type: none; margin: 100px; padding: 0; width: 130%; }
+        #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+        #sortable li span { position: absolute; margin-left: -1.3em; }
+
+    </style>
+</head>
+<body>
+    <div id="global">
+        <div id="mainContainer">
+            <div id="red" class="draggable ui-widget-content" ondrag="divDragged()"></div>
+        </div>
+
+        <div id="coordContainer">
+            x:<span id="coordX"></span> |
+            y:<span id="coordY"></span>
+        </div>
+
+        <div id="exo1b">
+            <ul id="sortable">
+                <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Anthony</li>
+                <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Damien</li>
+                <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Nicolas</li>
+                <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Pierre</li>
+                <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Olivier</li>
+            </ul>
+            <button class="ui-button ui-widget ui-corner-all" onclick="getOrder()">Afficher Ordre</button>
+
+            <div id="orderList">
+                <p id="1"></p>
+                <p id="2"></p>
+                <p id="3"></p>
+                <p id="4"></p>
+                <p id="5"></p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        var pos = $("#red").position();;
+
+        $("#coordY").html(pos.top)
+        $("#coordX").html(pos.left)
+
+        function divDragged() {
+            pos  = $("#red").position();
+            console.log(pos);
+            $("#coordY").html(pos.top)
+            $("#coordX").html(pos.left)
+        }
+
+        function getOrder(){
+            var items;
+            var cpt = 1;
+            $.each($('#sortable').find('li'), function() {
+                items = $(this).text();
+                console.log(items)
+                $("#orderList #"+cpt).html(items)
+                cpt++;
+            });
+        }
+
+        $(document).ready(function(){
+            $("#red").draggable({ containment: "#mainContainer"});
+            $( "#sortable" ).sortable();
+            $( "#sortable" ).disableSelection();
+        } );
+
+
+    </script>
+</body>
+</html>

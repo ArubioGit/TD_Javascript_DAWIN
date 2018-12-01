@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exo 3</title>
+</head>
+<body>
+
+    <div id="section1">
+        <form id="nIsPrime">
+            Nombre:<br>
+            <input type="text" id="nombre" name="nombre">
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+        <p></p>
+    </div>
+
+<script src="jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $("#nIsPrime").submit(function(event) {
+
+            $('div#section1 p').empty();
+            event.preventDefault();
+
+            $.ajax({
+                url: 'http://www.labri.fr/perso/pbiasutt/Cours/KDJS/TD02/functions.php',
+                dataType: "script",
+                beforeSend: function () { console.log('Envoi de la requête');},
+                complete: function (data) {
+                    console.log('Réponse reçue');
+                    var prime = isPrime($('#nombre').val());
+                    $('div#section1 p').append(prime.toString());
+                },
+                method: "POST"
+            });
+        })
+
+    });
+</script>
+</body>
+</html>

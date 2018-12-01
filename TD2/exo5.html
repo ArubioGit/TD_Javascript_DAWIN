@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exo 5</title>
+</head>
+<body>
+
+<div id="section1">
+    <form id="identite">
+        <label for="selector">Selection : </label>
+        <select id="selector">
+            <option value="nom">Nom</option>
+            <option value="codePostal">Code Postal</option>
+            <option value="codeDepartement">Code Département </option>
+        </select>
+        <input type="text" id="inputText" name="text">
+        <br>
+        <input type="submit" value="Rechercher">
+    </form>
+
+    <ul>
+
+    </ul>
+</div>
+
+<script src="jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#identite").submit(function(event) {
+
+            $('div#section1 ul').empty();
+            event.preventDefault();
+
+            $.ajax({
+                url: 'https://geo.api.gouv.fr/communes?'+$("#selector").val()+'='+$("#inputText").val(),
+                dataType: "json",
+                beforeSend: function () { console.log('Envoi de la requête');},
+                complete: function (data) {
+                    console.log('Données Reçu');
+                    var communes = data.responseJSON;
+                    console.log(communes);
+                    communes.forEach(function (element) {
+                        $('div#section1 ul').append('<li>'+ element['nom']+'</li>');
+                    })
+                },
+            });
+        })
+    });
+</script>
+</body>
+</html>

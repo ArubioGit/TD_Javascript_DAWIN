@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercice 5 TD 3</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <style>
+        body {
+            margin: 50px;
+            font-size: 20px;
+        }
+    </style>
+
+</head>
+<body>
+
+<div ng-app="application" ng-controller="controlleur01">
+    <ul>
+        <li ng-repeat="name in pkm">
+            {{ name }}
+        </li>
+    </ul>
+</div>
+
+<script>
+    var app = angular.module("application", []);
+    app.controller("controlleur01", function($scope, $http){
+        $http.get("https://raw.githubusercontent.com/fanzeyi/Pokemon-DB/master/pokedex.json").then(function(response){
+            $scope.afficherPokemons = function(){
+                var pokemons = [];
+                for(var i =0 ; i < response.data.length ; i++){
+                    pokemons.push(response.data[i].ename);
+                }
+                return pokemons;
+            };
+            $scope.pkm = $scope.afficherPokemons();
+        });
+    });
+
+</script>
+
+</body>
+</html>

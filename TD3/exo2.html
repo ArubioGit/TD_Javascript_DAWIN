@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercice 2 TD 3</title>
+    <link rel="stylesheet" href="jquery-ui-1.12.1.custom/jquery-ui.min.css">
+    <script src="jquery-3.2.1.min.js"></script>
+    <script src="jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+
+    <style>
+        #global{
+            display: flex;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="global">
+        <div id="container"><p onmouseover="onHover()" style="font-size: 18px">La police va grossir au survol</p></div>
+
+    </div>
+
+    <script type="text/javascript">
+
+        let size = 18;
+
+        function onHover(){
+            $('#container p').boostFontSize('#container p', size);
+            size++;
+        }
+
+        (function($){
+            $.fn.boostFontSize = function (element, size) {
+                console.log(element,size)
+                $(element).css("font-size", size.toString()+'px');
+            };
+        })(jQuery);
+
+
+    </script>
+</body>
+</html>

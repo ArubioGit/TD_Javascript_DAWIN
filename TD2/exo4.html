@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exo 4</title>
+</head>
+<body>
+
+<div id="section1">
+    <ul>
+
+    </ul>
+</div>
+
+<script src="jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('div#section1 ul').empty();
+
+        $.ajax({
+            url: 'http://www.labri.fr/perso/pbiasutt/Cours/KDJS/TD02/characters.php',
+            dataType: "json",
+            beforeSend: function () { console.log('Envoi de la requête');},
+            complete: function (data) {
+                console.log('Données Reçu');
+                var persos = data.responseJSON;
+                console.log(persos);
+                persos.forEach(function (element) {
+                    $('div#section1 ul').append('<li>'+ element['name']+'</li>');
+                })
+            },
+        });
+    })
+
+</script>
+</body>
+</html>

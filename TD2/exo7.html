@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<head>
+ 
+        <meta charset="utf-8" />
+ 
+    <title>exo7</title>
+    <meta name="description" content="">
+ 
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+
+    <style>
+    	body{ font-family: 'Quicksand', sans-serif; 
+    		margin: 0; }
+
+    	.leftPanel{
+    		float: left;
+    		width: 200px;
+    		padding: 25px;
+    		background-color: #F9F9F9;
+    	}
+
+		li{
+			cursor: pointer;
+			list-style-type: none;
+		}
+
+		li:hover{
+			color: darkmagenta;
+		}
+
+    	.leftPanel input[type=text]{   width: 178px; border: 1px solid #C1C2CC; padding: 10px; font-size: 16px; }
+    	.leftPanel input[type=submit]{ width: 200px; border: none; background-color: orange; color: white; padding: 10px; margin-top: 10px; text-transform: uppercase; font-size: 14px;}
+    	.leftPanel input[type=submit]:hover{ cursor: pointer; }
+    	.leftPanel form{ border-bottom: 1px solid #F1F1F1; padding-bottom: 10px; margin-bottom: 10px;}
+
+    	.leftPanel a{color: #C1C2CC; }
+
+
+
+    	.centerPanel{padding: 25px; margin-left: 250px; position: fixed; }
+
+		.lds-ring {
+			display: inline-block;
+			position: relative;
+			width: 64px;
+			height: 64px;
+		}
+		.lds-ring div {
+			box-sizing: border-box;
+			display: block;
+			position: absolute;
+			width: 51px;
+			height: 51px;
+			margin: 6px;
+			border: 6px solid #fff;
+			border-radius: 50%;
+			animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+			border-color: #000 transparent transparent transparent;
+		}
+		.lds-ring div:nth-child(1) {
+			animation-delay: -0.45s;
+		}
+		.lds-ring div:nth-child(2) {
+			animation-delay: -0.3s;
+		}
+		.lds-ring div:nth-child(3) {
+			animation-delay: -0.15s;
+		}
+		@keyframes lds-ring {
+			0% {
+				transform: rotate(0deg);
+			}
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+
+	</style>
+
+    <script src="jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+
+        function Persos_onClick(id) {
+
+            $('.centerPanel').empty();
+            console.log(id)
+
+            $.ajax({
+                url: 'https://anapioficeandfire.com/api/characters/'+id+'/',
+                dataType: "json",
+                beforeSend: function () {
+                    console.log('Envoi de la requête');
+                    console.log('https://anapioficeandfire.com/api/characters/'+id+'/')
+                    $('.centerPanel').append('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+                },
+                complete: function (data) {
+                    console.log('Données Reçu');
+                    var Results = data.responseJSON;
+                    console.log(Results);
+                    $('.centerPanel').empty();
+					$('.centerPanel').append('<div style="font-weight: bold;">'+ Results.name +'</div>');
+                    $('.centerPanel').append('<div>'+ "Gender : " + Results.gender +'</div>');
+                    $('.centerPanel').append('<div>'+ "Naissance : " +  Results.born +'</div>');
+                    $('.centerPanel').append('<div>'+ "Mort : " + Results.died +'</div>');
+                },
+                type:'GET'
+            });
+        }
+
+    	$(document).ready(function(){
+            var persos;
+
+            $.ajax({
+                url: 'http://www.labri.fr/perso/pbiasutt/Cours/KDJS/TD02/characters.php',
+                dataType: "json",
+                beforeSend: function () {
+                    console.log('Envoi de la requête');
+                    $('.leftPanel ul').append('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+                },
+                complete: function (data) {
+                    console.log('Données Reçu');
+                    var Personnages = data.responseJSON;
+                    persos = Personnages;
+                    console.log(persos);
+                    $('.leftPanel ul').empty();
+                    persos.forEach(function (element) {
+                        $('.leftPanel ul').append('<li onclick="Persos_onClick('+element['id']+')">'+ element['name']+'</li>');
+                    })
+                },
+                type:'GET'
+            });
+
+            $("#recherche").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $(".leftPanel ul li").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+    	});
+   	</script>
+</head>
+<body>
+	<div class="leftPanel">
+		<form action="#">
+			<input id="recherche" type="text" name="search" placeholder="Jon Snow ..." />
+		</form>
+		Résultats:
+		<ul>
+
+		</ul>
+	</div>
+
+	<div class="centerPanel">
+		Résultat
+	</div>
+</body>
+ 
+</html>

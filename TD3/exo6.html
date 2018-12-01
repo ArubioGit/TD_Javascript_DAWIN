@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercice 6 TD 3</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-messages.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+
+    <style>
+        body {
+            margin: 50px;
+            font-size: 20px;
+        }
+        #mainContainer {
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #mainContainer>div {
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 50px;
+        }
+        .errorInput {
+            font-size: 15px;
+            color: red;
+            margin-left: 20px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div id="mainContainer" ng-app="app" ng-controller="controlleur01">
+
+    <form class="ui form" name="exo6Form">
+        <div class="field">
+            <label>Email</label>
+            <input type="email" ng-model="email" name="userMail" placeholder="Entrez votre adresse mail"
+                   ng-model="email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required/>
+
+            <div ng-messages="exo6Form.userMail.$error">
+                <div ng-message="required" class="errorInput">Ce champ est obligatoire</div>
+                <div ng-message="pattern" class="errorInput">Veuillez saisir une adresse valide</div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Telephone</label>
+            <input type="text" name="userNumTel" placeholder="Entrez votre numéro de téléphone"
+                   ng-model="numTel" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/" required/>
+
+            <div ng-messages="exo6Form.userNumTel.$error">
+                <div ng-message="required" class="errorInput">Ce champ est obligatoire</div>
+                <div ng-message="pattern" class="errorInput">Ce champs doit être une suite de 10 chiffres valide</div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Mot de passe</label>
+            <input type="password" ng-model="password" name="userPassword" placeholder="Entrez votre mot de passe"
+                   ng-model="password" required/>
+
+            <div ng-messages="exo6Form.userPassword.$error">
+                <div ng-message="required" class="errorInput">Ce champ est obligatoire</div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Confirmation mot de passe</label>
+            <input type="password" ng-model="passConfirm" name="userPassConfirm" placeholder="Confirmez votre mot de passe"
+                   ng-model="passConfirm" ng-pattern="password" required/>
+
+            <div ng-messages="exo6Form.userPassConfirm.$error">
+                <div ng-message="required" class="errorInput">Ce champ est obligatoire</div>
+                <div ng-message="pattern" class="errorInput">Doit être équivalent au mot de passe choisi</div>
+            </div>
+        </div>
+
+    </form>
+
+    <div>
+        - Prévalidation de formulaire en utilisant ng-message et ng-pattern.
+    </div>
+    <div>
+        - En premier lieu, vérification si le champ est rempli puis dans un second temps vérification si l'input est valide (example num de tel en chiffre et mail valide)
+    </div>
+    <div>
+        - Pour les champs de mots de passe, vous pouvez tester que le confirmation du mot de passe soit équivalent au mot de passe choisi
+    </div>
+
+</div>
+
+<script>
+    var app = angular.module('app', ['ngMessages']);
+    app.controller("controlleur01", function($scope){
+        $scope.password = "";
+        $scope.passConfirm = "";
+    });
+</script>
+
+</body>
+</html>

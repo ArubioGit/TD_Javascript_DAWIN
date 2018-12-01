@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercice 4 TD 3</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <style>
+        body {
+            margin: 50px;
+            font-size: 20px;
+        }
+        input {
+            margin-left: 10px;
+            font-size: 18px;
+        }
+        select {
+            margin-left: 10px;
+            font-size: 18px;
+        }
+    </style>
+
+</head>
+<body>
+
+<div ng-app="application" ng-controller="controlleur01">
+
+    <form>
+        Nombre 1: <input type="text" ng-model="number1">
+        <br>
+        Nombre 2: <input type="text" ng-model="number2">
+        <br>
+        Operateur :<select id="operator" ng-model="operator">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select>
+        <br><br>
+        <p>{{ number1 }} {{ operator }} {{ number2 }} = {{operation(number1, number2)}}</p>
+
+    </form>
+</div>
+
+<script>
+    var app = angular.module("application", []);
+    app.controller("controlleur01", function($scope){
+        $scope.number1 = "0";
+        $scope.number2 = "0";
+        $scope.operator = "+";
+        $scope.operation = function(nbr1, nbr2){ return eval(nbr1 + $scope.operator + nbr2)};
+    });
+
+</script>
+
+</body>
+</html>
